@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,8 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
         IMediaPlayer.OnInfoListener, IMediaPlayer.OnErrorListener,
         IMediaPlayer.OnCompletionListener, IMediaPlayer.OnPreparedListener {
 
+    public static final String POWER_LOCK = "VideoPlayView";
+
     public static final String TAG = "lulu_video";
 
     private CustomMediaContoller mMediaController;
@@ -34,6 +37,7 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
     private ProgressBar mLoading;
     private Context mContext;
 
+    private PowerManager.WakeLock mWakeLock = null;
     private boolean portrait;
 
     public VideoPlayView(Context context) {
@@ -53,6 +57,8 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
 
     private void init(Context context) {
         mContext = context;
+        PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+        mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, POWER_LOCK);
         initData();
         initViews();
         initActions();
@@ -89,6 +95,9 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
             mVideoView.stopPlayback();
             mVideoView.setVideoURI(uri);
             mVideoView.start();
+        }
+        if (null != mWakeLock && (!mWakeLock.isHeld())) {
+            mWakeLock.acquire();
         }
     }
 
@@ -211,13 +220,20 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
         if (mVideoEventListener != null) {
             mVideoEventListener.onError();
         }
+        if (mWakeLock.isHeld()) {
+            mWakeLock.release();
+        }
         return false;
     }
 
     @Override
     public void onCompletion(IMediaPlayer iMediaPlayer) {
-        if (mVideoEventListener != null)
+        if (mVideoEventListener != null) {
             mVideoEventListener.onCompletionListener();
+        }
+        if (mWakeLock.isHeld()) {
+            mWakeLock.release();
+        }
     }
 
     @Override
