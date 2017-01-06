@@ -14,6 +14,9 @@ cd android/contrib
 
 cd ..
 ./compile-ijk.sh all
+<br>
 如有疑问可参考文献：
+<br>
 [小试ijkplayer编译](http://avenwu.net/ijkplayer/2015/05/07/hands_on_ijkplayer_preparation/)
+<br>
 [ windows下用cygwin编译android版ijkplayer]()
