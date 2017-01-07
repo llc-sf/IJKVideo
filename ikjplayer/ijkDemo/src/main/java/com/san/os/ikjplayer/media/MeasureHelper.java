@@ -25,7 +25,6 @@ import com.san.os.ikjplayer.R;
 import java.lang.ref.WeakReference;
 
 
-
 public final class MeasureHelper {
     private WeakReference<View> mWeakView;
 

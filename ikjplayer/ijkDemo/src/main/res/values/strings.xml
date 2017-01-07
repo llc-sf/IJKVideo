@@ -80,4 +80,12 @@
     <string name="can_not_play">can not play this video</string>
 
     <string name="not_support">player not support this device</string>
+
+
+    <string name="load_cost">load-cost</string>
+    <string name="seek_cost">seek_cost</string>
+    <string name="seek_load_cost">seek_load_cost</string>
+    <string name="tcp_speed">tcp_speed</string>
+    <string name="bit_rate">bit_rate</string>
+
 </resources>

@@ -1,4 +1,4 @@
-package com.san.os.ikjplayer.media;
+package com.san.os.ikjplayer.customview;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
 
 import com.san.os.ikjplayer.R;
+import com.san.os.ikjplayer.media.IjkVideoView;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 

@@ -1,4 +1,4 @@
-package com.san.os.ikjplayer.media;
+package com.san.os.ikjplayer.customview;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,8 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.san.os.ikjplayer.R;
+import com.san.os.ikjplayer.media.IjkVideoView;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
+
 
 /**
  * Description IKJ播放view

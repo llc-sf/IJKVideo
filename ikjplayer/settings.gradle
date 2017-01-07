@@ -1,1 +1,1 @@
-include ':ijkDemo'
+include ':ijkDemo', ':ijkplayer-java', ':ijkplayer-exo'

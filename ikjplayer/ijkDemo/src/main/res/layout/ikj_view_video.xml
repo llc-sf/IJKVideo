@@ -17,7 +17,7 @@
         android:layout_centerInParent="true"
         android:visibility="gone" />
 
-    <com.san.os.ikjplayer.media.IjkVideoViewControler
+    <com.san.os.ikjplayer.customview.IjkVideoViewControler
         android:id="@+id/media_contoller"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

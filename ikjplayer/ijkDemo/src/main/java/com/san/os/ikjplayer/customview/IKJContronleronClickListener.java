@@ -1,9 +1,9 @@
-package com.san.os.ikjplayer.media;
+package com.san.os.ikjplayer.customview;
 
 /**
  * @author luluc@yiche.com
- * @Description 视频播放器的控制器点击事件
- * @date 2017-01-05 09:53
+ * @Description
+ * @date 2017-01-07 19:22
  */
 
 public interface IKJContronleronClickListener {

@@ -1,4 +1,4 @@
-package com.san.os.ikjplayer.media;
+package com.san.os.ikjplayer.customview;
 
 /**
  * @author luluc@yiche.com

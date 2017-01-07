@@ -1,4 +1,4 @@
-package com.san.os.ikjplayer.media;
+package com.san.os.ikjplayer.customview;
 
 import android.content.Context;
 import android.os.Handler;
@@ -14,6 +14,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.san.os.ikjplayer.R;
+import com.san.os.ikjplayer.media.IMediaController;
 
 
 /**

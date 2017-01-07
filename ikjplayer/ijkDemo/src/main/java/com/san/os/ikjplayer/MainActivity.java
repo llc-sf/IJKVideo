@@ -1,17 +1,15 @@
 package com.san.os.ikjplayer;
 
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Window;
 import android.widget.RelativeLayout;
 
-import com.san.os.ikjplayer.media.IKJVideoEvnetListener;
-import com.san.os.ikjplayer.media.VideoPlayView;
+import com.san.os.ikjplayer.customview.IKJVideoEvnetListener;
+import com.san.os.ikjplayer.customview.VideoPlayView;
 
-import tv.danmaku.ijk.media.player.IMediaPlayer;
+import tv.danmaku.ijk.media.player.IjkMediaPlayer;
+
 
 public class MainActivity extends Activity {
 
@@ -33,12 +31,19 @@ public class MainActivity extends Activity {
     }
 
     private void initView() {
+        initIKJ();
         mVideoView = new VideoPlayView(this);
         mRoot = (RelativeLayout) findViewById(R.id.activity_main);
         RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         mRoot.addView(mVideoView, rl);
 
         mVideoView.setVideoEventListener(new IKJEventlistener());
+    }
+
+    private void initIKJ() {
+        // init player
+        IjkMediaPlayer.loadLibrariesOnce(null);
+        IjkMediaPlayer.native_profileBegin("libijkplayer.so");
     }
 
     @Override
