@@ -1,17 +1,13 @@
 package com.san.os.ikjplayer;
 
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Window;
 import android.widget.RelativeLayout;
 
 import com.san.os.ikjplayer.media.IKJVideoEvnetListener;
 import com.san.os.ikjplayer.media.VideoPlayView;
 
-import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 public class MainActivity extends Activity {
 
@@ -29,10 +25,11 @@ public class MainActivity extends Activity {
     }
 
     private void initData() {
-        mVideoView.start(url);
+
     }
 
     private void initView() {
+
         mVideoView = new VideoPlayView(this);
         mRoot = (RelativeLayout) findViewById(R.id.activity_main);
         RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
@@ -51,10 +48,27 @@ public class MainActivity extends Activity {
         if (mVideoView != null) {
             mVideoView.stop();
             mVideoView.release();
-            mVideoView.onDestroy();
-            mVideoView = null;
         }
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mVideoView!=null&&mVideoView.isPlaying()){
+            mVideoView.pause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mVideoView!=null){
+         if(mVideoView.getCurrentPosition()!=0){
+             mVideoView.reStart();
+         }else{
+             mVideoView.start(url);
+         }
+        }
     }
 
     @Override

@@ -101,6 +101,14 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
         }
     }
 
+    public boolean  isPlaying() {
+        return mVideoView.isPlaying();
+    }
+
+    public int getCurrentPosition(){
+        return  mVideoView.getCurrentPosition();
+    }
+
 
     public void onChanged(Configuration configuration) {
         portrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT;
@@ -152,38 +160,22 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
 
     }
 
-
-    public void release() {
-        mVideoView.release(true);
-    }
-
     public void setVideoEventListener(IKJVideoEvnetListener listener) {
         mVideoEventListener = listener;
     }
 
-    public void stop() {
-        if (mVideoView.isPlaying()) {
-            mVideoView.stopPlayback();
-        }
-    }
-
-    public void onDestroy() {
-        mHandler.removeCallbacksAndMessages(null);
-    }
-
-
     @Override
-    public void pause() {
+    public void pauseByControler() {
         mVideoView.pause();
     }
 
     @Override
-    public void start() {
+    public void startByControler() {
         mVideoView.start();
     }
 
     @Override
-    public void seekTo(int postion) {
+    public void seekToByControler(int postion) {
         mVideoView.seekTo(postion);
     }
 
@@ -240,6 +232,46 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
     public void onPrepared(IMediaPlayer iMediaPlayer) {
         if (mVideoEventListener != null) {
             mVideoEventListener.onPreparedListener();
+        }
+    }
+
+    /**
+     * 暂停播放
+     */
+    public void pause() {
+        if (mVideoView != null && mVideoView.canPause()) {
+            mVideoView.pause();
+        }
+
+    }
+
+    /**
+     * 从暂停到开始播放
+     */
+    public void reStart() {
+        if (mVideoView != null) {
+            mVideoView.start();
+        }
+    }
+
+
+    /**
+     * 释放资源
+     */
+    public void release() {
+        if (mVideoView != null) {
+            mHandler.removeCallbacksAndMessages(null);
+            mVideoView.release(true);
+            mVideoView = null;
+        }
+    }
+
+    /**
+     * 停止播放
+     */
+    public void stop() {
+        if (mVideoView != null) {
+            mVideoView.stopPlayback();
         }
     }
 }

@@ -122,14 +122,14 @@ public class CustomMediaContoller extends RelativeLayout implements IMediaContro
     public void pause() {
         mPlay.setSelected(false);
         if (mIKJContronleronClickListener != null) {
-            mIKJContronleronClickListener.pause();
+            mIKJContronleronClickListener.pauseByControler();
         }
     }
 
     public void reStart() {
         mPlay.setSelected(true);
         if (mIKJContronleronClickListener != null) {
-            mIKJContronleronClickListener.start();
+            mIKJContronleronClickListener.startByControler();
         }
         handler.sendEmptyMessageDelayed(PAUSE_IMAGE_HIDE, 100);
     }
@@ -158,7 +158,7 @@ public class CustomMediaContoller extends RelativeLayout implements IMediaContro
             public void onStopTrackingTouch(SeekBar seekBar) {
                 isDragging = false;
                 if (mIKJContronleronClickListener != null) {
-                    mIKJContronleronClickListener.seekTo((int) (duration * seekBar.getProgress() * 1.0f / 100));
+                    mIKJContronleronClickListener.seekToByControler((int) (duration * seekBar.getProgress() * 1.0f / 100));
                 }
                 handler.removeMessages(MESSAGE_SHOW_PROGRESS);
                 audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);

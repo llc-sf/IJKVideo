@@ -7,7 +7,7 @@ package com.san.os.ikjplayer.media;
  */
 
 public interface IKJContronleronClickListener {
-    void pause();
-    void start();
-    void seekTo(int postion);
+    void pauseByControler();
+    void startByControler();
+    void seekToByControler(int postion);
 }
