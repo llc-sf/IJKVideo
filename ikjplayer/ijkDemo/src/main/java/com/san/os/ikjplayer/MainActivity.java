@@ -45,16 +45,20 @@ public class MainActivity extends Activity {
     }
 
     private void videoViewRelease() {
-        if (mVideoView != null) {
-            mVideoView.stop();
-            mVideoView.release();
+        if (!mVideoView.isAvailable()) {
+            return;
         }
+        mVideoView.stop();
+        mVideoView.release();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if(mVideoView!=null&&mVideoView.isPlaying()){
+        if (!mVideoView.isAvailable()) {
+            return;
+        }
+        if (mVideoView.isPlaying()) {
             mVideoView.pause();
         }
     }
@@ -62,12 +66,13 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(mVideoView!=null){
-         if(mVideoView.getCurrentPosition()!=0){
-             mVideoView.reStart();
-         }else{
-             mVideoView.start(url);
-         }
+        if (!mVideoView.isAvailable()) {
+            return;
+        }
+        if (mVideoView.getCurrentPosition() != 0) {
+            mVideoView.reStart();
+        } else {
+            mVideoView.start(url);
         }
     }
 

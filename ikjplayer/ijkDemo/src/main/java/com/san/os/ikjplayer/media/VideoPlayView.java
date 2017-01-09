@@ -101,12 +101,12 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
         }
     }
 
-    public boolean  isPlaying() {
-        return mVideoView.isPlaying();
+    public boolean isPlaying() {
+        return mVideoView == null ? false : mVideoView.isPlaying();
     }
 
-    public int getCurrentPosition(){
-        return  mVideoView.getCurrentPosition();
+    public int getCurrentPosition() {
+        return mVideoView == null ? -1 : mVideoView.getCurrentPosition();
     }
 
 
@@ -273,5 +273,9 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
         if (mVideoView != null) {
             mVideoView.stopPlayback();
         }
+    }
+
+    public boolean isAvailable() {
+        return mVideoView != null;
     }
 }
