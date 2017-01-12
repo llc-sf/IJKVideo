@@ -9,6 +9,7 @@ import android.os.PowerManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import com.san.os.ikjplayer.R;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
+
 
 /**
  * Description IKJ播放view
@@ -38,7 +40,9 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
     private Context mContext;
 
     private PowerManager.WakeLock mWakeLock = null;
-    private boolean portrait;
+    private boolean portrait = true;
+    private boolean mPage;//是否为当前页播放
+    private int mWidth, mHeight;//播放器宽高
 
     public VideoPlayView(Context context) {
         super(context);
@@ -78,6 +82,12 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
 
     }
 
+    public void initSize(int width, int height) {
+        mPage = true;
+        mWidth = width;
+        mHeight = height;
+    }
+
     private void initActions() {
         mMediaController.setIKJContronleronClickListener(this);
         mVideoView.setOnInfoListener(this);
@@ -89,10 +99,6 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
     public void start(String path) {
         Uri uri = Uri.parse(path);
         if (!mVideoView.isPlaying()) {
-            mVideoView.setVideoURI(uri);
-            mVideoView.start();
-        } else {
-            mVideoView.stopPlayback();
             mVideoView.setVideoURI(uri);
             mVideoView.start();
         }
@@ -112,11 +118,6 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
 
     public void onChanged(Configuration configuration) {
         portrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT;
-        doOnConfigurationChanged(portrait);
-    }
-
-
-    public void doOnConfigurationChanged(final boolean portrait) {
         if (mVideoView != null) {
             mHandler.post(new Runnable() {
                 @Override
@@ -124,8 +125,13 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
                     setFullScreen(!portrait);
                     if (portrait) {
                         ViewGroup.LayoutParams layoutParams = getLayoutParams();
-                        layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
-                        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                        if (mPage) {
+                            layoutParams.height = mHeight;
+                            layoutParams.width = mWidth;
+                        } else {
+                            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+                            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                        }
                         Log.e("handler", "400");
                         setLayoutParams(layoutParams);
                         requestLayout();
@@ -143,6 +149,10 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
         }
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return !portrait;
+    }
 
     private void setFullScreen(boolean fullScreen) {
         if (mContext != null && mContext instanceof Activity) {
@@ -241,6 +251,7 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
     public void pause() {
         if (mVideoView != null && mVideoView.canPause()) {
             mVideoView.pause();
+            mMediaController.pause(true);
         }
 
     }
@@ -251,6 +262,7 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
     public void reStart() {
         if (mVideoView != null) {
             mVideoView.start();
+            mMediaController.reStart(true);
         }
     }
 
@@ -267,7 +279,7 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
     }
 
     /**
-     * 停止播放
+     * 停止播放并释放资源
      */
     public void stop() {
         if (mVideoView != null) {
@@ -277,5 +289,11 @@ public class VideoPlayView extends RelativeLayout implements IKJContronleronClic
 
     public boolean isAvailable() {
         return mVideoView != null;
+    }
+
+    @Override
+    protected void onConfigurationChanged(Configuration newConfig) {
+        portrait = (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT);
+        super.onConfigurationChanged(newConfig);
     }
 }

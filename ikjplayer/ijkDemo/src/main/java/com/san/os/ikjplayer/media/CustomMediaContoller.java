@@ -119,19 +119,32 @@ public class CustomMediaContoller extends RelativeLayout implements IMediaContro
         mPlay.setSelected(true);
     }
 
-    public void pause() {
+    /**
+     *
+     * @param isUI true仅仅是ui改变,无需通知video
+     */
+    public void pause(boolean isUI) {
         mPlay.setSelected(false);
-        if (mIKJContronleronClickListener != null) {
-            mIKJContronleronClickListener.pauseByControler();
+        if (!isUI) {
+            if (mIKJContronleronClickListener != null) {
+                mIKJContronleronClickListener.pauseByControler();
+            }
         }
+
     }
 
-    public void reStart() {
+    /**
+     *
+     * @param isUI true仅仅是ui改变,无需通知video
+     */
+    public void reStart(boolean isUI) {
         mPlay.setSelected(true);
-        if (mIKJContronleronClickListener != null) {
-            mIKJContronleronClickListener.startByControler();
-        }
         handler.sendEmptyMessageDelayed(PAUSE_IMAGE_HIDE, 100);
+        if (!isUI) {
+            if (mIKJContronleronClickListener != null) {
+                mIKJContronleronClickListener.startByControler();
+            }
+        }
     }
 
 
@@ -190,9 +203,9 @@ public class CustomMediaContoller extends RelativeLayout implements IMediaContro
             @Override
             public void onClick(View v) {
                 if (mVideoPlayer.isPlaying()) {
-                    pause();
+                    pause(false);
                 } else {
-                    reStart();
+                    reStart(false);
                 }
             }
         });
