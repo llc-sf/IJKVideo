@@ -80,4 +80,9 @@
     <string name="can_not_play">can not play this video</string>
 
     <string name="not_support">player not support this device</string>
+
+    <string name="video_start_remend_title">您正在使用移动网络</string>
+    <string name="video_start_remend_content">观看视频会消耗大量流量，可能导致运营商向您收取更多费用，强烈建议您连接Wi-Fi后再观看视频</string>
+    <string name="video_start_remend_cancel">取消</string>
+    <string name="video_start_remend_enter">继续播放</string>
 </resources>
